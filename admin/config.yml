@@ -29,7 +29,7 @@ collections:
       - { label: Title, name: title, widget: string }
       - { label: Desk, name: desk, widget: select, options: ["U.S. Politics", "International Relations", "Op-Ed"] }
       - { label: Date, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false }
-      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, search_fields: [name], display_fields: [name] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, search_fields: [name], display_fields: [name], required: false, hint: "Leave blank to credit the Youth Outsider Editorial Team." }
       - { label: Read time (minutes), name: read_time, widget: number, value_type: int, default: 3, min: 1 }
       - { label: Dek (one-line summary under the headline), name: dek, widget: text }
       - { label: Cover image, name: cover, widget: image }

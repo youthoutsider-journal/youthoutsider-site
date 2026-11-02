@@ -103,7 +103,7 @@ ${body}
 }
 
 // ---------- article pieces ----------
-const byline = (a) => `By <b>${esc(a.author || 'Youth Outsider Staff')}</b>`;
+const byline = (a) => `By <b>${esc(a.author || 'Youth Outsider Editorial Team')}</b>`;
 function leadCard(a, opts = {}) {
   return `  <article class="lead">
     <a href="${a.url}"><img src="${esc(a.cover)}" alt="${esc(a.cover_alt || '')}">${opts.caption && a.cover_caption ? `<p class="cap">${esc(a.cover_caption)}</p>` : ''}</a>
@@ -118,12 +118,32 @@ function leadCard(a, opts = {}) {
 `;
 }
 function rowCard(a) {
-  return `    <a class="arow" href="${a.url}">
+  return `    <a class="arow" data-desk="${deskSlug(a.desk)}" href="${a.url}">
       <div class="ad"><span class="label">${esc(a.desk)}</span><span class="meta">${shortDate(a.date)}</span></div>
       <div><h3 class="hl">${esc(a.title)}</h3><p>${esc(a.dek)}</p><p class="meta">${byline(a)} · ${a.read_time || 3} min read</p></div>
       <img src="${esc(a.cover)}" alt="">
     </a>
 `;
+}
+function gridCard(a) {
+  return `    <a class="gcard" href="${a.url}">
+      <img src="${esc(a.cover)}" alt="">
+      <span class="label">${esc(a.desk)}</span>
+      <h3 class="hl">${esc(a.title)}</h3>
+      <p>${esc(a.dek)}</p>
+      <p class="meta">${byline(a)} · ${shortDate(a.date)} · ${a.read_time || 3} min read</p>
+    </a>
+`;
+}
+const deskSlug = (d) => (DESKS[d] || '/').replace(/\//g, '');
+// lead story on top, then a grid, then a "see all" button
+const GRID_MAX = 6;
+function leadAndGrid(list, seeAllHref, seeAllText, leadOpts) {
+  if (!list.length) return '';
+  const grid = list.slice(1, 1 + GRID_MAX);
+  return leadCard(list[0], leadOpts)
+    + (grid.length ? `  <div class="grid">\n${grid.map(gridCard).join('')}  </div>\n` : '')
+    + `  <div class="seeall"><a class="btn" href="${seeAllHref}">${seeAllText} →</a></div>\n`;
 }
 const rows = (list, style = '') => (list.length ? `  <div class="arch"${style}>\n${list.map(rowCard).join('')}  </div>\n` : '');
 
@@ -172,18 +192,22 @@ ${au && au.bio ? `  <div class="authorbio"><b>${esc(au.name)}</b> ${inline(au.bi
 
 // ---------- pages ----------
 function fill(html) {
-  // the lead story: the newest article marked "featured", otherwise the newest article
-  const latest = articles.find((a) => a.featured) || articles[0];
-  const rest = articles.filter((a) => a !== latest);
+  // the lead story: the newest article (if several share the newest date, one marked "featured" wins)
+  const newest = articles[0] && articles[0].date;
+  const latest = articles.find((a) => a.date === newest && a.featured) || articles[0];
+  const ordered = latest ? [latest, ...articles.filter((a) => a !== latest)] : [];
   html = html.replace(/\{\{LATEST_URL\}\}/g, latest ? latest.url : '/articles/');
   html = html.replace('{{LATEST}}', latest
-    ? `  <div class="sechead"><h3>Latest</h3><a class="label" href="/articles/">All articles →</a></div>\n${leadCard(latest)}${rows(rest.slice(0, 5), ' style="margin-top:28px"')}`
+    ? `  <div class="sechead"><h3>Latest</h3><a class="label" href="/articles/">All articles →</a></div>\n${leadAndGrid(ordered, '/articles/', 'See all articles')}`
     : '');
   html = html.replace(/\{\{DESK:([^}]+)\}\}/g, (m, desk) => {
-    const list = articles.filter((a) => a.desk === desk);
+    const list = ordered.filter((a) => a.desk === desk);
     if (!list.length) return '';
-    return leadCard(list[0], { caption: true, readTime: true }) + rows(list.slice(1), ' style="margin-top:28px"');
+    return leadAndGrid(list, `/articles/?desk=${deskSlug(desk)}`, `See all ${desk === 'Op-Ed' ? 'op-eds' : desk + ' articles'}`, { caption: true, readTime: true });
   });
+  const chips = [['', 'All'], ...Object.keys(DESKS).map((d) => [deskSlug(d), d === 'Op-Ed' ? 'Op-Eds' : d])]
+    .map(([k, t]) => `<a class="chip" data-f="${k}" href="/articles/${k ? '?desk=' + k : ''}">${t}</a>`).join('');
+  html = html.replace('{{FILTERS}}', `  <nav class="chips" aria-label="Filter by desk">${chips}</nav>\n`);
   html = html.replace('{{ALL}}', rows(articles));
   return html;
 }

@@ -4,6 +4,19 @@
     document.getElementById('today').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
   } catch (e) {}
 
+  // All articles: filter by desk (?desk=us-politics)
+  var chips = document.querySelectorAll('.chip');
+  if (chips.length) {
+    var f = (new URLSearchParams(location.search).get('desk')) || '';
+    var shown = 0;
+    document.querySelectorAll('.arow').forEach(function (r) {
+      var show = !f || r.getAttribute('data-desk') === f;
+      r.hidden = !show; if (show) shown++;
+    });
+    chips.forEach(function (c) { if (c.getAttribute('data-f') === f) c.classList.add('on'); });
+    var none = document.getElementById('noarts'); if (none) none.hidden = shown > 0;
+  }
+
   // Applications: check required fields, then send to Netlify Forms
   function setup(formId, doneId, required, onOk) {
     var form = document.getElementById(formId);
