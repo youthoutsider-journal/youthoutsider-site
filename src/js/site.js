@@ -13,7 +13,7 @@
       var ok = true, first = null;
       required.forEach(function (r) {
         var f = document.getElementById(r[0]), er = document.getElementById('e-' + r[0]);
-        if (!f || !er) return;
+        if (!f || !er || f.closest('[hidden]')) return;
         if (!f.value.trim()) { er.textContent = r[1]; f.setAttribute('aria-invalid', 'true'); ok = false; first = first || f; }
         else { er.textContent = ''; f.removeAttribute('aria-invalid'); }
       });
@@ -40,13 +40,19 @@
 
   var prole = document.getElementById('prole'), pdw = document.getElementById('pdeskwrap');
   if (prole && pdw) {
-    var toggle = function () { pdw.hidden = prole.value !== 'Staff writer'; };
+    var psw = document.getElementById('psamplewrap'), pow = document.getElementById('poutwrap');
+    var toggle = function () {
+      pdw.hidden = prole.value !== 'Staff writer';
+      var outreach = prole.value === 'Outreach Lead';
+      if (psw) psw.hidden = outreach;
+      if (pow) pow.hidden = !outreach;
+    };
     prole.addEventListener('change', toggle); toggle();
   }
 
   setup('pform', 'done', [
     ['pname', 'Add your name.'], ['pschool', 'Add your grade.'], ['pcontact', 'Add an email or Instagram handle so we can reply.'],
-    ['pexp', 'Tell us about any experience, or write N/A.'], ['pmsg', 'Tell us why you want to join.'], ['pbio', 'Write a short bio about yourself.']
+    ['pexp', 'Tell us about any experience, or write N/A.'], ['pout', 'Share a few outreach ideas.'], ['pmsg', 'Tell us why you want to join.'], ['pbio', 'Write a short bio about yourself.']
   ], function () {
     return 'Thank you, ' + document.getElementById('pname').value.trim().split(' ')[0] + '. We\'ve received your application for ' + document.getElementById('prole').value + ', and we\'ll be in touch soon.';
   });
