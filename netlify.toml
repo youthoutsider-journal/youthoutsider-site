@@ -1,0 +1,11 @@
+[build]
+  command = "node build.js"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[redirects]]
+  from = "/world/*"
+  to = "/international-relations/"
+  status = 301
