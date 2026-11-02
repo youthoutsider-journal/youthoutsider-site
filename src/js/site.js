@@ -52,14 +52,14 @@
 
   setup('pform', 'done', [
     ['pname', 'Add your name.'], ['pschool', 'Add your grade.'], ['pcontact', 'Add an email or Instagram handle so we can reply.'],
-    ['pexp', 'Tell us about any experience, or write N/A.'], ['pout', 'Share a few outreach ideas.'], ['pmsg', 'Tell us why you want to join.'], ['pbio', 'Write a short bio about yourself.']
+    ['pexp', 'Tell us about any experience, or write N/A.'], ['pout', 'Share a few outreach ideas.'], ['pmsg', 'Tell us why you want to join.']
   ], function () {
     return 'Thank you, ' + document.getElementById('pname').value.trim().split(' ')[0] + '. We\'ve received your application for ' + document.getElementById('prole').value + ', and we\'ll be in touch soon.';
   });
 
   setup('gform', 'gdone', [
     ['gname', 'Add your name.'], ['gschool', 'Add your grade.'], ['gcontact', 'Add an email or Instagram handle so we can reply.'],
-    ['gpitch', 'Tell us the premise in a few sentences.'], ['gbio', 'Write a short bio about yourself.'], ['glink', 'Add a link to your piece.']
+    ['gpitch', 'Tell us the premise in a few sentences.'], ['glink', 'Add a link to your piece.']
   ], function () {
     return 'Thank you. We\'ve received your ' + document.getElementById('gtype').value.toLowerCase() + ' submission, and an editor will be in touch soon.';
   });
