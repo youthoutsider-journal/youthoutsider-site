@@ -219,6 +219,8 @@ const PAGES = [
   ['ir', '/international-relations/', '/international-relations/', 'International Relations'],
   ['oped', '/op-eds/', '/op-eds/', 'Op-Eds'],
   ['join', '/join/', '/join/', 'Join us'],
+  ['apply', '/apply/', '/join/', 'Staff application'],
+  ['guest', '/guest/', '/join/', 'Guest article or op-ed'],
   ['about', '/about/', '/about/', 'About'],
 ];
 
