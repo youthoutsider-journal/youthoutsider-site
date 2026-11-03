@@ -60,7 +60,7 @@ const articles = loadJSONDir('content/articles')
 
 // ---------- layout ----------
 const css = read('src/css/site.css');
-const NAV = [['/', 'Home'], ['/articles/', 'All Articles'], ['/us-politics/', 'U.S. Politics'], ['/international-relations/', 'International Relations'], ['/op-eds/', 'Op-Eds'], ['/join/', 'Join Us'], ['/about/', 'About']];
+const NAV = [['/', 'Home'], ['/articles/', 'Articles'], ['/join/', 'Join Us'], ['/about/', 'About']];
 function layout({ title, description, active, body, ogImage }) {
   const pageTitle = title ? `${title} | Youth Outsider` : 'Youth Outsider: U.S. politics from the outside in';
   const desc = description || 'An independent journal of U.S. politics and international relations, written by American teens in the States and abroad.';
@@ -77,19 +77,19 @@ function layout({ title, description, active, body, ogImage }) {
 <link rel="icon" href="/images/site/favicon-192.png">
 <link rel="apple-touch-icon" href="/images/site/favicon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:ital,wght@0,500;0,600;0,700;0,800;1,800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
 <link rel="stylesheet" href="/css/site.css">
 </head><body>
-<div class="util"><div class="wrap"><span id="today"></span><span>Est. 2026</span></div></div>
-<header class="mast"><div class="wrap">
-  <a class="np" href="/" aria-label="Youth Outsider, home"><span class="np-name">Youth Outsider<i>.</i></span></a>
-  <p class="np-tag"><span>U.S. politics from the outside in</span></p>
-  <p class="np-sub"><span>Independent</span><i>·</i><span>Student-run</span><i>·</i><span>Written by American teens in the States and abroad</span></p>
+<div class="pt-util"><div class="wrap"><span id="today"></span><span>U.S. politics from the outside in</span></div></div>
+<header class="pt-mast"><div class="wrap">
+  <a class="pt-brand" href="/" aria-label="Youth Outsider, home"><img src="/images/site/favicon-192.png" alt=""><span>YOUTH OUTSIDER<i>.</i></span></a>
+  <a class="pt-apply" href="/join/">Apply to join</a>
 </div></header>
-<nav class="main" aria-label="Sections"><div class="wrap"><div class="links">
+<nav class="pt-nav" aria-label="Sections"><div class="wrap">
 ${NAV.map(([href, label]) => `  <a href="${href}"${href === active ? ' aria-current="page"' : ''}>${label}</a>`).join('\n')}
-</div></div></nav>
-<div class="launchbar"><div class="wrap"><span class="lb-tag">Now launching</span><p>Youth Outsider is in its starter stage: we've published our first stories and are building our founding newsroom.</p><a href="/join/">Join us →</a></div></div>
+  <span class="pt-sub"><a href="/us-politics/">U.S. Politics</a><a href="/international-relations/">International Relations</a><a href="/op-eds/">Op-Eds</a></span>
+</div></nav>
+<div class="pt-launch"><div class="wrap"><span class="pt-lt">Now launching</span><p>Youth Outsider is just getting started. Our first stories are out, and we're building our founding newsroom.</p><a href="/join/">Be a founding member →</a></div></div>
 <main><section class="page"><div class="wrap">
 ${body}
 </div></section></main>
@@ -209,15 +209,50 @@ function fill(html) {
   const chips = [['', 'All'], ...Object.keys(DESKS).map((d) => [deskSlug(d), d === 'Op-Ed' ? 'Op-Eds' : d])]
     .map(([k, t]) => `<a class="chip" data-f="${k}" href="/articles/${k ? '?desk=' + k : ''}">${t}</a>`).join('');
   html = html.replace('{{FILTERS}}', `  <nav class="chips" aria-label="Filter by desk">${chips}</nav>\n`);
+  const DESKINFO = {
+    'U.S. Politics': 'Elections, Congress, the courts and the White House.',
+    'International Relations': 'World affairs, and how U.S. foreign policy plays out abroad.',
+    'Op-Ed': 'Arguments from teens anywhere, always labeled as opinion.',
+  };
+  html = html.replace('{{DESKCARDS}}', `  <div class="deskcards">\n${Object.keys(DESKS).map((d) => {
+    const list = ordered.filter((a) => a.desk === d);
+    const name = d === 'Op-Ed' ? 'Op-Eds' : d;
+    return `    <a class="dcard d-${deskSlug(d)}" href="${DESKS[d]}"><b>${name}</b><p>${DESKINFO[d]}</p>${list[0] ? `<span class="dl">Latest: ${esc(list[0].title)}</span>` : ''}<span class="dc">${list.length} ${list.length === 1 ? 'story' : 'stories'} →</span></a>\n`;
+  }).join('')}  </div>\n`);
+  html = html.replace('{{GRIDALL}}', `  <div class="grid">\n${ordered.map(gridCard).join('')}  </div>\n`);
+  const small = (a) => `<a class="pt-item" href="${a.url}"><img src="${esc(a.cover)}" alt=""><div><span class="label d-${deskSlug(a.desk)}">${esc(a.desk === 'Op-Ed' ? 'Opinion' : a.desk)}</span><h4 class="hl">${esc(a.title)}</h4><p class="meta">${byline(a)}</p></div></a>`;
+  const textItem = (a) => `<a class="pt-text" href="${a.url}"><h4 class="hl">${esc(a.title)}</h4><p class="meta">${byline(a)}</p></a>`;
+  if (latest) {
+    const news = ordered.filter((a) => a !== latest && a.desk !== 'Op-Ed').slice(0, 4);
+    const ops = ordered.filter((a) => a !== latest && a.desk === 'Op-Ed').slice(0, 4);
+    html = html.replace('{{FRONT}}', `<section class="pt-front">
+  <div class="pt-left"><span class="pt-k">Top stories</span>${news.map(small).join('')}${news.length < 4 ? '<a class="pt-item pt-promo" href="/join/"><div><span class="label">Newsroom</span><h4>Your story could be here</h4><p class="meta">Pitch and write for our U.S. Politics or International Relations desk. <b>Apply to join →</b></p></div></a>' : ''}</div>
+  <article class="pt-lead"><a href="${latest.url}"><img src="${esc(latest.cover)}" alt="${esc(latest.cover_alt || '')}"></a><span class="label d-${deskSlug(latest.desk)}">${esc(latest.desk === 'Op-Ed' ? 'Opinion' : latest.desk)}</span><h2><a class="hl" href="${latest.url}">${esc(latest.title)}</a></h2><p class="dek">${esc(latest.dek)}</p><p class="meta">${byline(latest)} · ${longDate(latest.date)}</p></article>
+  <aside class="pt-right"><span class="pt-k">Opinion</span>${ops.map(textItem).join('') || '<a class="pt-text pt-promo" href="/guest/"><h4>Be one of our first op-ed writers</h4><p class="meta">Have an argument about U.S. politics or world affairs? Send it in. Op-eds are always labeled as opinion. <b>Submit yours →</b></p></a>'}<a class="pt-more" href="/op-eds/">All op-eds →</a>
+    <div class="pt-joinbox"><b>Write for Youth Outsider</b><p>Teens anywhere can join the staff or send a guest piece.</p><a class="btn" href="/join/">Apply to join</a></div></aside>
+</section>`);
+  }
+  html = html.replace('{{DESKROWS}}', ['U.S. Politics', 'International Relations', 'Op-Ed'].map((d) => {
+    const list = ordered.filter((a) => a.desk === d).slice(0, 4);
+    const name = d === 'Op-Ed' ? 'Opinion' : d;
+    const PROMO = {
+      'U.S. Politics': ['Write for U.S. Politics', 'Elections, Congress, the courts and more: pitch a U.S. Politics story.', '/join/', 'Apply to join →'],
+      'International Relations': ['Write for International Relations', 'World affairs, U.S. foreign policy and more: pitch an International Relations story.', '/join/', 'Apply to join →'],
+      'Op-Ed': ['Make your argument', 'Guest op-eds from teens anywhere, edited and clearly labeled as opinion.', '/guest/', 'Submit an op-ed →'],
+    }[d];
+    const cards = list.map((a) => `<a class="pt-card" href="${a.url}"><img src="${esc(a.cover)}" alt=""><h4 class="hl">${esc(a.title)}</h4><p class="meta">${byline(a)} · ${shortDate(a.date)}</p></a>`);
+    if (cards.length < 4) cards.push(`<a class="pt-card pt-cta" href="${PROMO[2]}">${d === 'Op-Ed' ? `<span class="label">Write for ${name}</span>` : ''}<h4>${PROMO[0]}</h4><p>${PROMO[1]}</p><b>${PROMO[3]}</b></a>`);
+    return `<section class="pt-row"><div class="pt-rowhead"><h3>${name}</h3><a href="${DESKS[d]}">${list.length ? `More ${name === 'Opinion' ? 'op-eds' : name} →` : 'Open for submissions →'}</a></div><div class="pt-cards n${cards.length}">${cards.join('')}</div></section>`;
+  }).join('\n'));
   html = html.replace('{{ALL}}', rows(articles));
   return html;
 }
 const PAGES = [
   ['home', '/', '', 'Youth Outsider'],
-  ['all', '/articles/', '/articles/', 'All articles'],
-  ['us', '/us-politics/', '/us-politics/', 'U.S. Politics'],
-  ['ir', '/international-relations/', '/international-relations/', 'International Relations'],
-  ['oped', '/op-eds/', '/op-eds/', 'Op-Eds'],
+  ['all', '/articles/', '/articles/', 'Articles'],
+  ['us', '/us-politics/', '/articles/', 'U.S. Politics'],
+  ['ir', '/international-relations/', '/articles/', 'International Relations'],
+  ['oped', '/op-eds/', '/articles/', 'Op-Eds'],
   ['join', '/join/', '/join/', 'Join us'],
   ['apply', '/apply/', '/join/', 'Staff application'],
   ['guest', '/guest/', '/join/', 'Guest article or op-ed'],
