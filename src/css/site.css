@@ -479,3 +479,11 @@ footer{background:var(--neutral-dark)}
 .pt-lt{font:800 .68rem/1 var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--accent);padding:5px 8px;border-radius:2px}
 .pt-launch p{font:500 .9rem/1.4 var(--f-sans);color:var(--ink-2)}
 .pt-launch a{font:700 .88rem/1.4 var(--f-sans);color:var(--red-ink)}
+
+.pt-mast .wrap{justify-content:flex-start}
+.pt-slogan{margin-left:22px;padding-left:22px;border-left:1px solid var(--hair);font:italic 400 clamp(1rem,1.6vw,1.3rem)/1.25 var(--f-serif);color:var(--ink-2)}
+.pt-apply{margin-left:auto}
+@media (max-width:860px){.pt-mast .wrap{flex-wrap:wrap}.pt-slogan{order:3;flex-basis:100%;margin:2px 0 0;padding:0;border:0;font-size:1rem}.pt-slogan br{display:none}}
+@media (max-width:860px){.pt-apply{order:2}.pt-brand{order:1}.pt-brand span{font-size:1.45rem}.pt-brand img{width:36px;height:36px}.pt-brand{gap:10px}.pt-mast .wrap{gap:10px 12px;padding-block:14px}}
+@media (max-width:560px){.pt-util .wrap span:last-child{display:none}}
+@media (max-width:480px){.pt-apply{display:none}}

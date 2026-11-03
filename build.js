@@ -80,9 +80,10 @@ function layout({ title, description, active, body, ogImage }) {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
 <link rel="stylesheet" href="/css/site.css">
 </head><body>
-<div class="pt-util"><div class="wrap"><span id="today"></span><span>U.S. politics from the outside in</span></div></div>
+<div class="pt-util"><div class="wrap"><span id="today"></span><span>Independent · Nonpartisan · Student-led</span></div></div>
 <header class="pt-mast"><div class="wrap">
   <a class="pt-brand" href="/" aria-label="Youth Outsider, home"><img src="/images/site/favicon-192.png" alt=""><span>YOUTH OUTSIDER<i>.</i></span></a>
+  <p class="pt-slogan">U.S. politics, <br>from the outside in.</p>
   <a class="pt-apply" href="/join/">Apply to join</a>
 </div></header>
 <nav class="pt-nav" aria-label="Sections"><div class="wrap">
