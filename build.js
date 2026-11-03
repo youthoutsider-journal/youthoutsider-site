@@ -105,7 +105,7 @@ function leadCard(a, opts = {}) {
   return `  <article class="lead">
     <a href="${a.url}"><img src="${esc(a.cover)}" alt="${esc(a.cover_alt || '')}">${opts.caption && a.cover_caption ? `<p class="cap">${esc(a.cover_caption)}</p>` : ''}</a>
     <div>
-      <span class="label">${esc(a.desk)}${opts.readTime ? ` · ${a.read_time || 3} min read` : ''}</span>
+      <span class="label d-${deskSlug(a.desk)}">${opts.readTime ? '' : '<b class="new">Latest</b>'}${esc(a.desk)}${opts.readTime ? ` · ${a.read_time || 3} min read` : ''}</span>
       <h3><a class="hl" href="${a.url}">${esc(a.title)}</a></h3>
       <p class="dek">${esc(a.dek)}</p>
       <p class="meta">${byline(a)} · ${longDate(a.date)}${opts.readTime ? '' : ` · ${a.read_time || 3} min read`}</p>
@@ -125,7 +125,7 @@ function rowCard(a) {
 function gridCard(a) {
   return `    <a class="gcard" href="${a.url}">
       <img src="${esc(a.cover)}" alt="">
-      <span class="label">${esc(a.desk)}</span>
+      <span class="label d-${deskSlug(a.desk)}">${esc(a.desk)}</span>
       <h3 class="hl">${esc(a.title)}</h3>
       <p>${esc(a.dek)}</p>
       <p class="meta">${byline(a)} · ${shortDate(a.date)} · ${a.read_time || 3} min read</p>

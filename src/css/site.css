@@ -368,3 +368,40 @@ footer .fine{font:400 .85rem/1.4 var(--f-sans)!important;letter-spacing:0!import
 .body a,.prose a,.inl{color:var(--blue-ink)!important;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--blue-ink) 40%,transparent);text-underline-offset:3px}
 .body a:hover,.prose a:hover,.inl:hover{text-decoration-color:currentColor}
 .article figure img{border:0!important;border-radius:4px}
+
+
+/* ===== Redesign, round 2: more personality ===== */
+.top{background:var(--navy);border-bottom:0}
+body::before{background:var(--navy)}
+.brand-top span{color:#fff}
+.brand-top i{color:#FF6F66}
+.brand-top img{box-shadow:0 0 0 2px rgba(255,255,255,.35)}
+.top .links a{color:#D6DDF0}
+.top .links a:hover,.top .links a[aria-current="page"]{color:#fff;border-bottom-color:#FF6F66}
+.focus{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:-8px 0 30px;padding-bottom:18px;border-bottom:1px solid var(--hair)}
+.focus span{font:700 .82rem/1 var(--f-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--red-ink);margin-right:6px}
+.focus a{font:600 .92rem/1 var(--f-sans);color:var(--ink);padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--hair)}
+.focus a:hover{border-color:var(--blue);color:var(--blue-ink)}
+.label.d-us-politics{color:var(--red-ink)}
+.label.d-international-relations{color:var(--blue-ink)}
+.label.d-op-eds{color:#7A4FB0}
+.label .new{display:inline-block;margin-right:10px;padding:4px 9px;border-radius:4px;background:var(--red);color:#fff;font:700 .72rem/1 var(--f-sans);letter-spacing:.06em;text-transform:uppercase;vertical-align:1px}
+.lead{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:40px;align-items:center}
+.lead h3{font-size:clamp(2rem,4vw,3.2rem);line-height:1.04;margin:14px 0 16px}
+.lead .dek{font-size:1.2rem}
+.lead .tl{display:inline-flex;margin-top:22px;padding:12px 18px;border-radius:6px;background:var(--surface);border:1px solid var(--hair)}
+.lead .tl:hover{text-decoration:none;border-color:var(--blue)}
+.gcard img{transition:transform .25s ease}
+.gcard:hover img{transform:translateY(-3px)}
+@media (prefers-reduced-motion:reduce){.gcard img{transition:none}.gcard:hover img{transform:none}}
+.joinstrip{position:relative;overflow:hidden;background:var(--navy);color:#fff;padding:44px 40px;min-height:220px;border-radius:10px}
+.joinstrip b{font-size:clamp(1.6rem,3vw,2.2rem);color:#fff}
+.joinstrip span{color:#D6DDF0;font-size:1.08rem;max-width:34rem}
+.joinstrip>div{position:relative;z-index:1}
+.js-art{position:absolute;right:-90px;top:50%;width:360px;height:360px;transform:translateY(-50%);border-radius:50%;box-shadow:0 0 0 8px var(--red),0 0 0 20px rgba(255,255,255,.12);opacity:.9}
+.joinstrip .btn{background:#fff;color:var(--navy)}
+.joinstrip .btn:hover{background:#E8ECF7}
+.joinstrip .tl{color:#fff}
+.js-links{margin-right:260px}
+@media (max-width:860px){.js-art{width:240px;height:240px;right:-80px;top:auto;bottom:-90px;transform:none;opacity:.55}.js-links{margin-right:0}}
+@media (max-width:860px){.lead{grid-template-columns:minmax(0,1fr);gap:22px}}
