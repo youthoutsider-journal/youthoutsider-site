@@ -77,26 +77,22 @@ function layout({ title, description, active, body, ogImage }) {
 <link rel="icon" href="/images/site/favicon-192.png">
 <link rel="apple-touch-icon" href="/images/site/favicon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:ital,wght@0,500;0,600;0,700;0,800;1,800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/css/site.css">
 </head><body>
-<div class="util"><div class="wrap"><span id="today"></span><span>Est. 2026</span></div></div>
-<header class="mast"><div class="wrap">
-  <a class="np" href="/" aria-label="Youth Outsider, home"><span class="np-name">Youth Outsider<i>.</i></span></a>
-  <p class="np-tag"><span>U.S. politics from the outside in</span></p>
-  <p class="np-sub"><span>Independent</span><i>·</i><span>Student-run</span><i>·</i><span>Written by American teens in the States and abroad</span></p>
+<header class="top"><div class="wrap">
+  <a class="brand-top" href="/" aria-label="Youth Outsider, home"><img src="/images/site/favicon-192.png" alt=""><span>Youth Outsider<i>.</i></span></a>
+  <nav class="links" aria-label="Sections">
+${NAV.slice(1).map(([href, label]) => `    <a href="${href}"${href === active ? ' aria-current="page"' : ''}>${label}</a>`).join('\n')}
+  </nav>
 </div></header>
-<nav class="main" aria-label="Sections"><div class="wrap"><div class="links">
-${NAV.map(([href, label]) => `  <a href="${href}"${href === active ? ' aria-current="page"' : ''}>${label}</a>`).join('\n')}
-</div></div></nav>
-<div class="launchbar"><div class="wrap"><span class="lb-tag">Now launching</span><p>Youth Outsider is in its starter stage: we've published our first stories and are building our founding newsroom.</p><a href="/join/">Join us →</a></div></div>
 <main><section class="page"><div class="wrap">
 ${body}
 </div></section></main>
 <footer><div class="wrap">
-  <div class="brand"><img src="/images/site/logo.png" alt=""><div><b>Youth Outsider<span>.</span></b><p>U.S. politics from the outside in. An independent journal written by American teens in the States and abroad.</p></div></div>
+  <div class="brand"><img src="/images/site/logo.png" alt=""><div><b>Youth Outsider<span>.</span></b><p>U.S. politics from the outside in.</p></div></div>
   <div class="links">${NAV.slice(1).map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</div>
-  <p class="fine">© ${new Date().getFullYear()} Youth Outsider · Independent · Student-run · Opinion pieces reflect the views of their authors.</p>
+  <p class="fine">© ${new Date().getFullYear()} Youth Outsider. Opinion pieces reflect the views of their authors.</p>
 </div></footer>
 <script src="/js/site.js"></script>
 </body></html>
@@ -199,7 +195,7 @@ function fill(html) {
   const ordered = latest ? [latest, ...articles.filter((a) => a !== latest)] : [];
   html = html.replace(/\{\{LATEST_URL\}\}/g, latest ? latest.url : '/articles/');
   html = html.replace('{{LATEST}}', latest
-    ? `  <div class="sechead"><h3>Latest</h3><a class="label" href="/articles/">All articles →</a></div>\n${leadAndGrid(ordered, '/articles/', 'See all articles')}`
+    ? `${leadAndGrid(ordered, '/articles/', 'See all articles')}`
     : '');
   html = html.replace(/\{\{DESK:([^}]+)\}\}/g, (m, desk) => {
     const list = ordered.filter((a) => a.desk === desk);
