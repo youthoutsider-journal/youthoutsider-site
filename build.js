@@ -77,7 +77,7 @@ function layout({ title, description, active, body, ogImage }) {
 <link rel="icon" href="/images/site/favicon-192.png">
 <link rel="apple-touch-icon" href="/images/site/favicon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=Source+Sans+3:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/css/site.css">
 </head><body>
 <header class="top"><div class="wrap">
@@ -85,6 +85,7 @@ function layout({ title, description, active, body, ogImage }) {
   <nav class="links" aria-label="Sections">
 ${NAV.slice(1).map(([href, label]) => `    <a href="${href}"${href === active ? ' aria-current="page"' : ''}>${label}</a>`).join('\n')}
   </nav>
+  <a class="hdr-apply" href="/join/">Apply to join</a>
 </div></header>
 <main><section class="page"><div class="wrap">
 ${body}
@@ -105,7 +106,7 @@ function leadCard(a, opts = {}) {
   return `  <article class="lead">
     <a href="${a.url}"><img src="${esc(a.cover)}" alt="${esc(a.cover_alt || '')}">${opts.caption && a.cover_caption ? `<p class="cap">${esc(a.cover_caption)}</p>` : ''}</a>
     <div>
-      <span class="label d-${deskSlug(a.desk)}">${opts.readTime ? '' : '<b class="new">Latest</b>'}${esc(a.desk)}${opts.readTime ? ` · ${a.read_time || 3} min read` : ''}</span>
+      <span class="label d-${deskSlug(a.desk)}">${opts.readTime ? '' : '<b class="new">Latest</b> · '}${esc(a.desk)}${opts.readTime ? ` · ${a.read_time || 3} min read` : ''}</span>
       <h3><a class="hl" href="${a.url}">${esc(a.title)}</a></h3>
       <p class="dek">${esc(a.dek)}</p>
       <p class="meta">${byline(a)} · ${longDate(a.date)}${opts.readTime ? '' : ` · ${a.read_time || 3} min read`}</p>
@@ -182,7 +183,7 @@ function articlePage(a) {
   <div class="body">
 ${articleBody(a)}
   </div>
-${au && au.bio ? `  <div class="authorbio"><b>${esc(au.name)}</b> ${inline(au.bio)}</div>\n` : ''}  <div class="after"><p><b>Write for Youth Outsider.</b> Join the staff, or pitch a single piece as a guest.</p><a class="btn" href="/join/">Get involved</a></div>
+${au && au.bio ? `  <div class="authorbio"><b>${esc(au.name)}</b> ${inline(au.bio)}</div>\n` : ''}  <div class="after"><p><b>Write for Youth Outsider.</b> Join the staff, or pitch a single piece as a guest.</p><a class="btn" href="/apply/">Apply now →</a></div>
 </article>`;
   return layout({ title: a.title, description: a.dek, active: '/articles/', body, ogImage: a.cover });
 }
