@@ -11,7 +11,7 @@
   "cover_caption": "Collage by Youth Outsider. Map: U.S. Census Bureau boundaries. Photo credits pending.",
   "figures": [
     {
-      "image": "/images/uploads/strait-of-hormuz.png",
+      "image": "/images/uploads/hdw-strait.png",
       "side": "left",
       "paragraph": 4,
       "alt": "The Strait of Hormuz"
@@ -29,7 +29,7 @@
       "alt": "Gina Hinojosa"
     },
     {
-      "image": "/images/uploads/iran-trump.png",
+      "image": "/images/uploads/hdw-trump.png",
       "side": "right",
       "paragraph": 12,
       "alt": "Donald Trump"
@@ -47,7 +47,7 @@
       "alt": "Adam Hamilton"
     },
     {
-      "image": "/images/uploads/talarico.png",
+      "image": "/images/uploads/hdw-talarico.png",
       "side": "left",
       "paragraph": 19,
       "alt": "James Talarico"
