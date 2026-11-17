@@ -17,7 +17,7 @@
     var none = document.getElementById('noarts'); if (none) none.hidden = shown > 0;
   }
 
-  // Applications: check required fields, then send to Netlify Forms
+  // Applications: check required fields, then send to /api/apply (Cloudflare Worker emails them)
   function setup(formId, doneId, required, onOk) {
     var form = document.getElementById(formId);
     if (!form) return;
@@ -34,7 +34,7 @@
       if (!ok) { done.hidden = true; first.focus(); return; }
       var btn = form.querySelector('button[type=submit]');
       btn.disabled = true; btn.textContent = 'Sending…';
-      fetch('/', {
+      fetch('/api/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(new FormData(form)).toString()

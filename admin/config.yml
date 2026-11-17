@@ -3,6 +3,8 @@ backend:
   name: github
   repo: youthoutsider-journal/youthoutsider-site
   branch: main
+  # Login still goes through Netlify's GitHub sign-in after the move to Cloudflare
+  site_domain: youthoutsider-journal.netlify.app
 
 # Draft -> In review -> Ready columns. Nothing goes live until it's published.
 publish_mode: editorial_workflow

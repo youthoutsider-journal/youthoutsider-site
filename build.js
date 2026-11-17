@@ -279,4 +279,7 @@ for (const a of articles) {
 // 404 and old links
 mkdirp(OUT);
 fs.writeFileSync(path.join(OUT, '404.html'), layout({ title: 'Page not found', active: '', body: '<div class="pagehead"><span class="label">404</span><h2>We couldn\'t find that page.</h2><p><a class="tl" href="/">Go to the home page</a></p></div>' }));
+// Cloudflare: redirects and caching
+fs.writeFileSync(path.join(OUT, '_redirects'), '/world/* /international-relations/ 301\n');
+fs.writeFileSync(path.join(OUT, '_headers'), '/images/*\n  Cache-Control: public, max-age=2592000\n/social/*\n  Cache-Control: public, max-age=2592000\n');
 console.log(`Built ${PAGES.length} pages and ${articles.length} articles into dist/`);
